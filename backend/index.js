@@ -44,18 +44,12 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 
 const allowedOrigins = [
-  "http://localhost:5173", // dev
-  "https://lustrous-piroshki-1e272f.netlify.app" // prod
+  "http://localhost:5174",
+  "https://chatly-frontend.vercel.app"
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: allowedOrigins,
   credentials: true
 }));
 
