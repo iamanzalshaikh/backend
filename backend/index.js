@@ -42,16 +42,22 @@ import { app, server } from "./socket/socket.js";
 dotenv.config();
 
 const port = process.env.PORT || 5000;
-
-const allowedOrigins = [
-  "http://localhost:5174",
-  "https://chatly-frontend.vercel.app"
-];
-
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:5174",
+      "https://chatly-frontend.vercel.app"
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(cookieParser());
