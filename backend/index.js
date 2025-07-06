@@ -43,9 +43,14 @@ dotenv.config();
 
 const port = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "http://localhost:5173", // dev
+  "https://lustrous-piroshki-1e272f.netlify.app" // prod
+];
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin.startsWith("http://localhost")) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -53,7 +58,6 @@ app.use(cors({
   },
   credentials: true
 }));
-
 
 app.use(express.json());
 app.use(cookieParser());
